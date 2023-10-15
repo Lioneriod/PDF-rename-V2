@@ -91,7 +91,7 @@ for pdf in pdf_list:
     except WindowsError:
         count += 1
         failed_pdfs.append(str(
-            count) + ' - FAILED TO RENAME: [' + pdf + " ----> " + str(new_file_name) + "]")
+            count) + ' - FAILED TO RENAME:[' + pdf + " ----> " + str(new_file_name) + "]")
 
 chdir(get_curr)
 if (len(failed_pdfs) > 0):
