@@ -35,7 +35,7 @@ month_conversion = {
 }
 
 get_curr = getcwd()
-directory = 'rename'
+directory = '../../Desktop/PDF_FILES/rename'
 chdir(directory)
 
 pdf_list = glob('*.pdf')
