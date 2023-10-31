@@ -16,6 +16,7 @@ cr_regex2_2 = r'(?<=Valor Pago\n\n\bR\$)\D(\w+,\w+)'
 cr_regex2_3 = r'(?<=Valor Pago\n\n\n\bR\$)\D(\w+,\w+)'
 cr_regex3 = r'(?<=Data/Hora da transação\n)(\w+)'
 cr_regex4 = r'(?<=Data/Hora da transação\n)(\w+)\b/(\w+)'
+cr_regex5 = r'(?<=Data/Hora da transação\n)(\w+)\b/(\w+)\b/20(\w+)'
 
 text = ""
 
@@ -81,9 +82,10 @@ for pdf in pdf_list:
 
     finalText4 = re.search(cr_regex4, text).group(2).strip()
     finalText4 = month_conversion.get(finalText4, "Invalid input")
+    finaltext5 = re.search(cr_regex5, text).group(3).strip()
 
     new_file_name = 'pgto '+finalText1_1.title() + ' ' + finalText1_2.title() + \
-        ' ' + finalText2 + ' ' + finalText3 + finalText4 + '23.pdf'
+        ' ' + finalText2 + ' ' + finalText3 + finalText4 + finaltext5+'.pdf'
     text = ""
 
     try:
@@ -98,3 +100,9 @@ if (len(failed_pdfs) > 0):
     with open('PDF_FAILURES.txt', 'w') as f:
         for failure in failed_pdfs:
             f.writelines(failure + '\n')
+
+# How to use it:
+# 1- Inside a folder called PDF_FILES on your desktop, create a folder "rename",
+#    with the desired files for renaming inside it.
+# 2- Use python rename_personalized.py. If the command python isn't found
+#    use the command alias python='python3' on your terminal
