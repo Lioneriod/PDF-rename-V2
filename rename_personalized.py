@@ -14,10 +14,9 @@ cr_regex2_0 = r'(?<=Valor Pago R\$) (\w+,\w+)'
 cr_regex2_1 = r'(?<=Valor Pago\n\bR\$) (\w+,\w+)'
 cr_regex2_2 = r'(?<=Valor Pago\n\n\bR\$)\D(\w+,\w+)'
 cr_regex2_3 = r'(?<=Valor Pago\n\n\n\bR\$)\D(\w+,\w+)'
-cr_regex3 = r'(?<=Data/Hora da transação\n)(\w+)'
-cr_regex4 = r'(?<=Data/Hora da transação\n)(\w+)\b/(\w+)'
-cr_regex5 = r'(?<=Data/Hora da transação\n)(\w+)\b/(\w+)\b/20(\w+)'
-
+cr_regex3_0 = r'(?<=Hora da transação\n)(\w+)\b\/(\w+)\b\/20(\w+)|(?<=Hora da transação \n)(\w+)\b\/(\w+)\b\/20(\w+)'
+cr_regex3_1 = r'(?<=Hora da transação\n\n)(\w+)\b\/(\w+)\b\/20(\w+)|(?<=Hora da transação \n\n)(\w+)\b\/(\w+)\b\/20(\w+)'
+cr_regex3_2 = r'(?<=Hora da transação\n\n\n)(\w+)\b\/(\w+)\b\/20(\w+)|(?<=Hora da transação \n\n\n)(\w+)\b\/(\w+)\b\/20(\w+)'
 text = ""
 
 month_conversion = {
@@ -78,14 +77,40 @@ for pdf in pdf_list:
     elif re.search(cr_regex2_3, text) is not None:
         finalText2 = re.search(cr_regex2_3, text)
 
-    finalText3 = re.search(cr_regex3, text).group(1).strip()
-
-    finalText4 = re.search(cr_regex4, text).group(2).strip()
+    finalText3 = ''
+    finalText4 = ''
+    finalText5 = ''
+    if re.search(cr_regex3_0, text) is not None:
+        if re.search(cr_regex3_0, text).group(1) is not None:
+            finalText3 = re.search(cr_regex3_0, text).group(1).strip()
+            finalText4 = re.search(cr_regex3_0, text).group(2).strip()
+            finalText5 = re.search(cr_regex3_0, text).group(3).strip()
+        elif re.search(cr_regex3_0, text).group(1) is None:
+            finalText3 = re.search(cr_regex3_0, text).group(4).strip()
+            finalText4 = re.search(cr_regex3_0, text).group(5).strip()
+            finalText5 = re.search(cr_regex3_0, text).group(6).strip()
+    elif re.search(cr_regex3_1, text) is not None:
+        if re.search(cr_regex3_1, text).group(1) is not None:
+            finalText3 = re.search(cr_regex3_1, text).group(1).strip()
+            finalText4 = re.search(cr_regex3_1, text).group(2).strip()
+            finalText5 = re.search(cr_regex3_1, text).group(3).strip()
+        elif re.search(cr_regex3_1, text).group(1) is None:
+            finalText3 = re.search(cr_regex3_1, text).group(4).strip()
+            finalText4 = re.search(cr_regex3_1, text).group(5).strip()
+            finalText5 = re.search(cr_regex3_1, text).group(6).strip()
+    elif re.search(cr_regex3_2, text) is not None:
+        if re.search(cr_regex3_2, text).group(1) is not None:
+            finalText3 = re.search(cr_regex3_2, text).group(1).strip()
+            finalText4 = re.search(cr_regex3_2, text).group(2).strip()
+            finalText5 = re.search(cr_regex3_2, text).group(3).strip()
+        elif re.search(cr_regex3_2, text).group(1) is None:
+            finalText3 = re.search(cr_regex3_2, text).group(4).strip()
+            finalText4 = re.search(cr_regex3_2, text).group(5).strip()
+            finalText5 = re.search(cr_regex3_2, text).group(6).strip()
     finalText4 = month_conversion.get(finalText4, "Invalid input")
-    finaltext5 = re.search(cr_regex5, text).group(3).strip()
 
     new_file_name = 'pgto '+finalText1_1.title() + ' ' + finalText1_2.title() + \
-        ' ' + finalText2 + ' ' + finalText3 + finalText4 + finaltext5+'.pdf'
+        ' ' + finalText2 + ' ' + finalText3 + finalText4 + finalText5+'.pdf'
     text = ""
 
     try:
