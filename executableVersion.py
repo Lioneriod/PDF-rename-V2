@@ -1,9 +1,6 @@
-# Python program to specify the file
-# path in a tkinter file dialog
-# Import the libraries tk, ttk, filedialog
 import tkinter as tk
 from tkinter import filedialog as fd
-import fitz
+import pymupdf
 from os import DirEntry, curdir, chdir, getcwd, rename
 from glob import glob as glob
 import re
@@ -64,7 +61,7 @@ def renamer(folderPath):
     pdf_list = glob('*.pdf')
 
     for pdf in pdf_list:
-        with fitz.open(pdf) as pdf_obj:
+        with pymupdf.open(pdf) as pdf_obj:
             for page in pdf_obj:
                 text += page.get_text()
         finalText1 = ''
@@ -156,3 +153,5 @@ runButton = tk.Button(text='Iniciar renomeação',
 mainButton.pack()
 
 app.mainloop()
+
+# For compiling use: python -m PyInstaller -F -i renamer.ico -w -n "RenomeadorV1" executableVersion.py
