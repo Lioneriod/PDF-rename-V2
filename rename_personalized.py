@@ -3,6 +3,8 @@ from os import DirEntry, curdir, chdir, getcwd, rename
 from glob import glob as glob
 import re
 
+
+renameFolder = ''
 failed_pdfs = []
 count = 0
 cr_regex1_0 = r'(?<=Para) ((\w+)|\b\b.*).*(?:\n.*){0}.*(|\b(\w+)\b.*).*(?:\n.*){0}.*(\b\w+)'
@@ -35,7 +37,6 @@ month_conversion = {
 }
 
 get_curr = getcwd()
-directory = '../../Desktop/PDF_FILES/rename'
 chdir(directory)
 
 pdf_list = glob('*.pdf')
@@ -44,7 +45,6 @@ for pdf in pdf_list:
     with fitz.open(pdf) as pdf_obj:
         for page in pdf_obj:
             text += page.get_text()
-
     finalText1 = ''
     if re.search(cr_regex1_0, text) is not None:
         finalText1_1 = re.search(cr_regex1_0, text).group(2).strip()
