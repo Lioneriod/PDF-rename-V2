@@ -10,7 +10,6 @@ from re import search
 # Create a GUI app
 app = tk.Tk()
 app.geometry('500x400')
-
 initialText = tk.Label(text="\nOlá! Bem vinda ao renomeador de PDFs da Vera!\n\nPara usar esse programa, basta escolher a pasta onde seus arquivos estão e em seguida escolher para onde vão suas versões renomeadas (e separadas).\n", wraplength=490)
 initialText.pack()
 # Specify the title and dimensions to app
